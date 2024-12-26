@@ -1,9 +1,15 @@
+require("dotenv").config();
 const express = require("express");
-const connection = require("./config/database");
-
+require("module-alias/register");
 const app = express();
-
+const bodyParser = require("body-parser");
+const port = process.env.PORT || 3000;
+const dotenv = require("dotenv");
+const connection = require("./config/database");
+const authRouter = require("@/routes/auth.route");
+dotenv.config();
 app.use(express.json());
+app.use(bodyParser.json());
 
 (async () => {
   try {
@@ -14,6 +20,8 @@ app.use(express.json());
   }
 })();
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server running on port ${process.env.PORT}`);
+app.use(authRouter);
+
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
