@@ -2,7 +2,7 @@ const db = require("../config/database");
 
 (async () => {
   try {
-    // Buat tabel users
+    // Create table users
     await db.query(`
             CREATE TABLE IF NOT EXISTS users (
                 id INT AUTO_INCREMENT PRIMARY KEY,

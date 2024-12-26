@@ -3,7 +3,6 @@ const { errorClientResponse } = require("@/helpers/response.helper");
 
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
-  console.log(authHeader, "ini auth header");
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return errorClientResponse(
@@ -25,11 +24,4 @@ const authenticateToken = (req, res, next) => {
   }
 };
 
-const getPayload = () => {
-  const headers = req.headers.authorization;
-  const token = headers.split(" ")[1];
-  const payload = jwt.verify(token, process.env.JWT_SECRET);
-  return payload;
-};
-
-module.exports = { authenticateToken, getPayload };
+module.exports = { authenticateToken };
