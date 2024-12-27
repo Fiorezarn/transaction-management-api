@@ -7,7 +7,9 @@ const bodyParser = require("body-parser");
 const port = process.env.PORT || 3000;
 const dotenv = require("dotenv");
 const connection = require("./config/database");
-const authRouter = require("@/routes/membership.route");
+const membershipRouter = require("@/routes/membership.route");
+const informationRouter = require("@/routes/information.route");
+const transactionRouter = require("@/routes/transaction.route");
 dotenv.config();
 app.use(express.json());
 app.use(bodyParser.json());
@@ -21,7 +23,9 @@ app.use(bodyParser.json());
   }
 })();
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-app.use(authRouter);
+app.use(membershipRouter);
+app.use(informationRouter);
+app.use(transactionRouter);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
