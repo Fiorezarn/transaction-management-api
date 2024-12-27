@@ -8,8 +8,10 @@ const {
 const getBalance = async (req, res) => {
   const { email } = req.user;
   try {
-    const query = `SELECT balance FROM users WHERE email = ?`;
-    let [balance] = await db.query(query, [email]);
+    let [balance] = await db.query(
+      `SELECT balance FROM users WHERE email = ?`,
+      [email]
+    );
     if (balance.length === 0) {
       return errorClientResponse(res, "User Tidak Ditemukan!", 404);
     }

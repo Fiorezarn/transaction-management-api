@@ -14,11 +14,11 @@ const errorServerResponse = (res, message, code = 500) => {
   });
 };
 
-const errorClientResponse = (res, message, code = 400, customData = {}) => {
+const errorClientResponse = (res, status, message, data, code = 400) => {
   return res.status(code).send({
-    status: "error",
-    code,
+    status,
     message,
+    data,
   });
 };
 

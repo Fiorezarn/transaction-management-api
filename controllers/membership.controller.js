@@ -22,8 +22,10 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const query = `SELECT email, password FROM users WHERE email = ?`;
-    let [user] = await db.query(query, [email]);
+    let [user] = await db.query(
+      `SELECT email, password FROM users WHERE email = ?`,
+      [email]
+    );
 
     if (user.length === 0) {
       return errorClientResponse(res, "User Tidak Ditemukan!", 404);
@@ -35,7 +37,6 @@ const loginUser = async (req, res) => {
     }
 
     const loginToken = generateToken(user[0].email, process.env.JWT_EXPIRES_IN);
-    res.set("Authorization", `Bearer ${loginToken}`);
     const data = {
       token: loginToken,
     };
@@ -48,8 +49,10 @@ const loginUser = async (req, res) => {
 const getProfile = async (req, res) => {
   const { email } = req.user;
   try {
-    const query = `SELECT email, first_name, last_name, profile_image FROM users WHERE email = ?`;
-    let [user] = await db.query(query, [email]);
+    let [user] = await db.query(
+      `SELECT email, first_name, last_name, profile_image FROM users WHERE email = ?`,
+      [email]
+    );
     if (user.length === 0) {
       return errorClientResponse(res, "User Tidak Ditemukan!", 404);
     }
@@ -63,15 +66,14 @@ const updateProfile = async (req, res) => {
   const { first_name, last_name } = req.body;
   const { email } = req.user;
   try {
-    const query = `SELECT id FROM users WHERE email = ?`;
+    const query = `SELECT email, first_name, last_name, profile_image FROM users WHERE email = ?`;
     let [user] = await db.query(query, [email]);
     if (user.length === 0) {
       return errorClientResponse(res, "User Tidak Ditemukan!", 404);
     }
     const update = `UPDATE users SET first_name = ?, last_name = ? WHERE email = ?`;
     await db.query(update, [first_name, last_name, email]);
-    const updatedUserQuery = `SELECT email, first_name, last_name, profile_image FROM users WHERE email = ?`;
-    let [updatedUser] = await db.query(updatedUserQuery, [email]);
+    let [updatedUser] = await db.query(query, [email]);
     return successResponse(res, 0, "Update Pofile berhasil", updatedUser[0]);
   } catch (error) {
     return errorServerResponse(res, error.message);
@@ -94,13 +96,8 @@ const updateProfileImage = async (req, res) => {
 
     const query = `UPDATE users SET profile_image = ? WHERE email = ?`;
     await db.query(query, [req.file.filename, email]);
-
-    return successResponse(res, 0, "Update Profile Image berhasil", {
-      email,
-      first_name: user[0].first_name,
-      last_name: user[0].last_name,
-      profile_image: profileImageUrl,
-    });
+    const [result] = await db.query(queryUser, [email]);
+    return successResponse(res, 0, "Update Profile Image berhasil", result[0]);
   } catch (error) {
     return errorServerResponse(res, error.message);
   }
