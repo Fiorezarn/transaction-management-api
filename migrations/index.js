@@ -1,65 +1,47 @@
 const db = require("../config/database");
+const fs = require("fs");
+const path = require("path");
 
-(async () => {
-  try {
-    // Create table users
-    await db.query(`
-            CREATE TABLE IF NOT EXISTS users (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                email VARCHAR(255) NOT NULL UNIQUE,
-                first_name VARCHAR(100) NOT NULL,
-                last_name VARCHAR(100) NOT NULL,
-                password VARCHAR(255) NOT NULL,
-                profile_image VARCHAR(255) DEFAULT NULL,
-                balance INT DEFAULT 0,
-                created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-            );
-        `);
-    // Create table banners
-    await db.query(`
-          CREATE TABLE IF NOT EXISTS banners (
-              id INT AUTO_INCREMENT PRIMARY KEY,
-              banner_name VARCHAR(255) NOT NULL UNIQUE,
-              banner_image VARCHAR(100) NOT NULL,
-              description VARCHAR(100) NOT NULL,
-              created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-              updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-          );
-      `);
-    // Create table services
-    await db.query(`
-        CREATE TABLE IF NOT EXISTS services (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            service_code VARCHAR(255) NOT NULL UNIQUE,
-            service_name VARCHAR(100) NOT NULL,
-            service_icon VARCHAR(100) NOT NULL,
-            service_tariff INT NOT NULL,
-            created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-        );
-    `);
-    // Create table transactions
-    await db.query(`
-            CREATE TABLE IF NOT EXISTS transactions (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            user_id INT NOT NULL,
-            service_code VARCHAR(255) NOT NULL,
-            description VARCHAR(100) NOT NULL,
-            transaction_type ENUM('TOPUP', 'PAYMENT') NOT NULL,
-            total_amount INT NOT NULL,
-            invoice_number VARCHAR(100) NOT NULL,
-            created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-            FOREIGN KEY (user_id) REFERENCES users(id),
-            FOREIGN KEY (service_code) REFERENCES services(service_code)
-      );
-  `);
-
-    console.log("Database migration completed successfully!");
-  } catch (error) {
-    console.error("Error during database migration:", error.message);
-  } finally {
-    process.exit();
+const runMigrations = async (type) => {
+  let files = fs.readdirSync(__dirname).filter((file) => file !== "index.js"); // Ganti `const` dengan `let`
+  if (type === "down") {
+    files = files.reverse();
   }
-})();
+
+  const connection = await db.getConnection();
+
+  try {
+    await connection.beginTransaction();
+
+    for (const file of files) {
+      console.log(`Running migration: ${file}`);
+      const migration = require(path.join(__dirname, file));
+      await migration[type](connection);
+    }
+
+    await connection.commit();
+    console.log(`Migrations ${type} completed successfully.`);
+  } catch (error) {
+    await connection.rollback();
+    console.error(`Error during migrations ${type}:`, error.message);
+  } finally {
+    connection.release();
+  }
+};
+
+const main = async () => {
+  const action = process.argv[2];
+  if (!["up", "down"].includes(action)) {
+    console.error("Please specify 'up' or 'down' as an argument.");
+    process.exit(1);
+  }
+
+  try {
+    await runMigrations(action);
+  } finally {
+    db.end();
+    process.exit(0);
+  }
+};
+
+main();

@@ -5,8 +5,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js",
-    "migrate": "node ./migrations/index.js",
-    "seed": "node ./seeders/banner.seed.js && node ./seeders/service.seed.js"
+    "migrate:up": "node ./migrations/index.js up",
+    "migrate:down": "node ./migrations/index.js down",
+    "seed:up": "node ./seeders/index.js up",
+    "seed:down": "node ./seeders/index.js down"
   },
   "author": "Fioreza Radhin Naufal",
   "license": "ISC",

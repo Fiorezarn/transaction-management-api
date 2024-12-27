@@ -1,5 +1,3 @@
-const db = require("../config/database");
-
 const banners = [
   {
     banner_name: "Banner 1",
@@ -33,13 +31,12 @@ const banners = [
   },
 ];
 
-(async () => {
-  try {
+module.exports = {
+  up: async (db) => {
     const query = `
       INSERT INTO banners (banner_name, banner_image, description)
       VALUES (?, ?, ?)
     `;
-
     for (const banner of banners) {
       await db.execute(query, [
         banner.banner_name,
@@ -47,11 +44,10 @@ const banners = [
         banner.description,
       ]);
     }
-
-    console.log("Seeder berhasil dijalankan!");
-  } catch (error) {
-    console.error("Seeder gagal:", error.message);
-  } finally {
-    await db.end();
-  }
-})();
+    console.log("Banner seeder berhasil dijalankan.");
+  },
+  down: async (db) => {
+    await db.execute(`DELETE FROM banners`);
+    console.log("Banner seeder berhasil di-rollback.");
+  },
+};

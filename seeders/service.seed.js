@@ -1,5 +1,3 @@
-const db = require("../config/database");
-
 const services = [
   {
     service_code: "PAJAK",
@@ -75,13 +73,12 @@ const services = [
   },
 ];
 
-(async () => {
-  try {
+module.exports = {
+  up: async (db) => {
     const query = `
       INSERT INTO services (service_code, service_name, service_icon, service_tariff)
       VALUES (?, ?, ?, ?)
     `;
-
     for (const service of services) {
       await db.execute(query, [
         service.service_code,
@@ -90,11 +87,10 @@ const services = [
         service.service_tariff,
       ]);
     }
-
-    console.log("Seeder berhasil dijalankan!");
-  } catch (error) {
-    console.error("Seeder gagal:", error.message);
-  } finally {
-    await db.end();
-  }
-})();
+    console.log("Service seeder berhasil dijalankan.");
+  },
+  down: async (db) => {
+    await db.execute(`DELETE FROM services`);
+    console.log("Service seeder berhasil di-rollback.");
+  },
+};
