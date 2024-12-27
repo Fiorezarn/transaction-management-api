@@ -54,117 +54,44 @@ API documentation can be accessed via the following link:
 ## 🛠️ Installation and Configuration
 
 1. Clone this repository:
+
 ```
-
-git clone <REPOSITORY_URL>
-
-```plaintext
-
+git clone https://github.com/Fiorezarn/transaction-management-api
+```
 2. Enter the project directory:
 ```
-
 cd <FOLDER_NAME>
-
-```plaintext
+```
 
 3. Install dependencies:
 ```
-
 npm install
-
-```plaintext
+```
 
 4. Create a .env file for environment variable configuration:
 ```
-
 DB_HOST=<database_host>
 DB_USER=<database_username>
 DB_PASSWORD=<database_password>
 DB_NAME=<database_name>
 JWT_SECRET=<secret_key>
-
-```plaintext
+```
 
 5. Run the application:
 ```
-
 npm start
 
-```plaintext
-
+```
 6. Access the application via:
 ```
-
 [http://localhost](http://localhost):`<PORT>`
-
-```plaintext
-
+```
 ## 🔄 Database Structure
 
 The database design is included in the repository as a DDL file named `database_schema.sql`. This file includes:
 
 - Tables for users, transactions, and top-ups
 - Indexes and relationships between tables to maximize query performance
-
-## 🔍 API Usage
-
-### Main Endpoints
-
-Here are some of the main endpoints:
-
-1. 🔑 Registration
-```
-
-POST /api/register
-Body:
-{
-"username": "string",
-"password": "string",
-"email": "string"
-}
-
-```plaintext
-
-2. 🔐 Login
-```
-
-POST /api/login
-Body:
-{
-"username": "string",
-"password": "string"
-}
-
-```plaintext
-
-3. 💳 Balance Check
-```
-
-GET /api/saldo
-
-```plaintext
-
-4. 📤 Top Up
-```
-
-POST /api/topup
-Body:
-{
-"amount": "number"
-}
-
-```plaintext
-
-5. 💸 Transaction
-```
-
-POST /api/transaksi
-Body:
-{
-"service": "string",
-"amount": "number"
-}
-
 
 
 ## 🌐 Deployment
