@@ -22,6 +22,7 @@ app.use(bodyParser.json());
     console.error("Database connection failed:", error.message);
   }
 })();
+app.get("/", (req, res) => res.send("Hello World!"));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(membershipRouter);
 app.use(informationRouter);
