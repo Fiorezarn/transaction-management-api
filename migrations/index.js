@@ -12,8 +12,8 @@ const db = require("../config/database");
                 password VARCHAR(255) NOT NULL,
                 profile_image VARCHAR(255) DEFAULT NULL,
                 balance INT DEFAULT 0,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             );
         `);
     // Create table banners
@@ -23,8 +23,8 @@ const db = require("../config/database");
               banner_name VARCHAR(255) NOT NULL UNIQUE,
               banner_image VARCHAR(100) NOT NULL,
               description VARCHAR(100) NOT NULL,
-              created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-              updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+              created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+              updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
           );
       `);
     // Create table services
@@ -35,8 +35,8 @@ const db = require("../config/database");
             service_name VARCHAR(100) NOT NULL,
             service_icon VARCHAR(100) NOT NULL,
             service_tariff INT NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+            created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
         );
     `);
     // Create table transactions
@@ -44,13 +44,13 @@ const db = require("../config/database");
             CREATE TABLE IF NOT EXISTS transactions (
             id INT AUTO_INCREMENT PRIMARY KEY,
             user_id INT NOT NULL,
-            service_code VARCHAR(255) NULL,
+            service_code VARCHAR(255) NOT NULL,
             description VARCHAR(100) NOT NULL,
             transaction_type ENUM('TOPUP', 'PAYMENT') NOT NULL,
             total_amount INT NOT NULL,
             invoice_number VARCHAR(100) NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             FOREIGN KEY (user_id) REFERENCES users(id),
             FOREIGN KEY (service_code) REFERENCES services(service_code)
       );

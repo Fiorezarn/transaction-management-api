@@ -28,12 +28,18 @@ const loginUser = async (req, res) => {
     );
 
     if (user.length === 0) {
-      return errorClientResponse(res, "User Tidak Ditemukan!", 404);
+      return errorClientResponse(res, 102, "User Tidak Ditemukan!", null, 404);
     }
 
     const validPassword = await bcrypt.compare(password, user[0].password);
     if (!validPassword) {
-      return errorClientResponse(res, "Password Salah!", 401);
+      return errorClientResponse(
+        res,
+        103,
+        "Username atau password salah",
+        null,
+        401
+      );
     }
 
     const loginToken = generateToken(user[0].email, process.env.JWT_EXPIRES_IN);
@@ -54,7 +60,7 @@ const getProfile = async (req, res) => {
       [email]
     );
     if (user.length === 0) {
-      return errorClientResponse(res, "User Tidak Ditemukan!", 404);
+      return errorClientResponse(res, 102, "User Tidak Ditemukan!", null, 404);
     }
     return successResponse(res, 0, "Sukses", user[0]);
   } catch (error) {
@@ -69,7 +75,7 @@ const updateProfile = async (req, res) => {
     const query = `SELECT email, first_name, last_name, profile_image FROM users WHERE email = ?`;
     let [user] = await db.query(query, [email]);
     if (user.length === 0) {
-      return errorClientResponse(res, "User Tidak Ditemukan!", 404);
+      return errorClientResponse(res, 102, "User Tidak Ditemukan!", null, 404);
     }
     const update = `UPDATE users SET first_name = ?, last_name = ? WHERE email = ?`;
     await db.query(update, [first_name, last_name, email]);
@@ -86,10 +92,10 @@ const updateProfileImage = async (req, res) => {
     const queryUser = `SELECT email, first_name, last_name, profile_image FROM users WHERE email = ?`;
     let [user] = await db.query(queryUser, [email]);
     if (user.length === 0) {
-      return errorClientResponse(res, "User Tidak Ditemukan!", 404);
+      return errorClientResponse(res, 102, "User Tidak Ditemukan!", null, 404);
     }
     if (!req.file) {
-      return errorClientResponse(res, "File tidak ditemukan", 400);
+      return errorClientResponse(res, 102, "File tidak ditemukan", null);
     }
 
     const profileImageUrl = `${process.env.BASE_URL}/uploads/${req.file.filename}`;

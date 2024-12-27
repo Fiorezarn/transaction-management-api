@@ -7,7 +7,9 @@ const authenticateToken = (req, res, next) => {
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return errorClientResponse(
       res,
+      102,
       "Token tidak ditemukan atau format salah!",
+      null,
       401
     );
   }

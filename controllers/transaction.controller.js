@@ -13,7 +13,7 @@ const getBalance = async (req, res) => {
       [email]
     );
     if (balance.length === 0) {
-      return errorClientResponse(res, "User Tidak Ditemukan!", 404);
+      return errorClientResponse(res, 102, "User Tidak Ditemukan!", null, 404);
     }
     return successResponse(res, 0, "Get Balance Berhasil", balance[0]);
   } catch (error) {
@@ -28,7 +28,7 @@ const topupBalance = async (req, res) => {
     const query = `SELECT id, balance FROM users WHERE email = ?`;
     let [balance] = await db.query(query, [email]);
     if (balance.length === 0) {
-      return errorClientResponse(res, "User Tidak Ditemukan!", 404);
+      return errorClientResponse(res, 102, "User Tidak Ditemukan!", null, 404);
     }
     const invoice_number = `INV-${Date.now()}-${balance[0].id}`;
     const update = `UPDATE users SET balance = ?, updated_at = CURRENT_TIMESTAMP WHERE email = ?`;
@@ -64,14 +64,19 @@ const transaction = async (req, res) => {
     const query = `SELECT id, balance FROM users WHERE email = ?`;
     let [balance] = await db.query(query, [email]);
     if (balance.length === 0) {
-      return errorClientResponse(res, "User Tidak Ditemukan!", 404);
+      return errorClientResponse(res, 102, "User Tidak Ditemukan!", null, 404);
     }
     const [service] = await db.query(
       `SELECT service_tariff, service_name FROM services WHERE service_code = ?`,
       [service_code]
     );
     if (service.length === 0) {
-      return errorClientResponse(res, "Service Tidak Ditemukan!", 404);
+      return errorClientResponse(
+        res,
+        102,
+        "Service atau Layanan tidak ditemukan",
+        null
+      );
     }
     const update = `UPDATE users SET balance = ?, updated_at = CURRENT_TIMESTAMP WHERE email = ?`;
     const create = `INSERT INTO transactions (user_id, service_code, description, transaction_type, total_amount, invoice_number) VALUES (?, ?, ?, ?, ?, ?)`;
@@ -85,14 +90,14 @@ const transaction = async (req, res) => {
     ]);
 
     if (balance[0].balance < service[0].service_tariff) {
-      return errorClientResponse(res, "Saldo Tidak Cukup!", 400);
+      return errorClientResponse(res, 102, "Saldo Tidak Cukup!", null);
     }
     await db.query(update, [
       Number(balance[0].balance) - Number(service[0].service_tariff),
       email,
     ]);
     const [result] = await db.query(
-      `SELECT invoice_number, services.service_code, services.service_name, transactions.transaction_type, total_amount, transactions.created_at FROM transactions 
+      `SELECT invoice_number, services.service_code, services.service_name, transactions.transaction_type, total_amount, transactions.created_on FROM transactions 
       JOIN services ON transactions.service_code = services.service_code
       WHERE invoice_number = ?`,
       [invoice_number]
@@ -113,8 +118,8 @@ const getTransactionHistory = async (req, res) => {
     );
     const [service] = await db.query(
       `
-      SELECT invoice_number, transaction_type, description, total_amount, created_at FROM TRANSACTIONS WHERE user_id = ?
-      ORDER BY created_at DESC
+      SELECT invoice_number, transaction_type, description, total_amount, created_on FROM TRANSACTIONS WHERE user_id = ?
+      ORDER BY created_on DESC
       LIMIT ?
       OFFSET ?
       `,
