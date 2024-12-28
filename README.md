@@ -78,4 +78,4 @@ npm start
 
 The API is deployed on Render and can be accessed at:
 
-[https://product-management-8or6.onrender.com](https://transaction-management-api-jgs4.onrender.com)
+[https://transaction-management-api-jgs4.onrender.com](https://transaction-management-api-jgs4.onrender.com)
