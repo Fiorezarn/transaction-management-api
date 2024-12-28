@@ -62,6 +62,9 @@ const getProfile = async (req, res) => {
     if (user.length === 0) {
       return errorClientResponse(res, 102, "User Tidak Ditemukan!", null, 404);
     }
+    user[0].profile_image !== null
+      ? (user[0].profile_image = `${process.env.BASE_URL}/uploads/${user[0].profile_image}`)
+      : (user[0].profile_image = null);
     return successResponse(res, 0, "Sukses", user[0]);
   } catch (error) {
     return errorServerResponse(res, error.message);
@@ -98,11 +101,10 @@ const updateProfileImage = async (req, res) => {
       return errorClientResponse(res, 102, "File tidak ditemukan", null);
     }
 
-    const profileImageUrl = `${process.env.BASE_URL}/uploads/${req.file.filename}`;
-
     const query = `UPDATE users SET profile_image = ? WHERE email = ?`;
     await db.query(query, [req.file.filename, email]);
-    const [result] = await db.query(queryUser, [email]);
+    let [result] = await db.query(queryUser, [email]);
+    result[0].profile_image = `${process.env.BASE_URL}/uploads/${result[0].profile_image}`;
     return successResponse(res, 0, "Update Profile Image berhasil", result[0]);
   } catch (error) {
     return errorServerResponse(res, error.message);
