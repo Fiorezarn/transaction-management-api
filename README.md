@@ -1,55 +1,46 @@
-# 🚀 Assignment API Programmer
+# 📄 PPOB Service API
 
-## 📄 Project Description
+This API allows users to check balances, top-ups, and transactions for various services, including mobile credit, PLN, and others.
 
-This project aims to build a REST API using Node.js, Express.js, and MySQL2 based on the specifications provided in the API Contract document (Swagger). The REST API covers the following modules:
+## 📚 Table of Contents
 
-- 🔑 Registration
-- 🔐 Login
-- 💳 Balance Check
-- 📤 Top Up
-- 💸 Transactions (including payment services like Airtime, Game Vouchers, etc.)
-
-This project meets the criteria and technical requirements set by the assessment team.
+1. [Introduction](#-ppob-service-api)
+2. [Key Features](#-key-features)
+3. [Tech Stack](#-tech-stack)
+4. [API Contract Specification](#-api-contract-specification)
+5. [Installation and Configuration](#-installation-and-configuration)
+6. [Deployment](#-deployment)
+7. [Testing](#-testing)
+8. [Task Submission](#-task-submission)
 
 ## 🔧 Key Features
 
-### 🔑 Registration and Login:
-- Password hashing using bcrypt
-- Input validation using Joi
-- Tokenization with jsonwebtoken
+| **Feature**            | **Description**                                                                 |
+|------------------------|---------------------------------------------------------------------------------|
+| 🔑 **Registration and Login**  | Password hashing using bcrypt, Input validation using Joi, Tokenization with jsonwebtoken |
+| 💳 **Balance Check**           | Real-time user balance data retrieval                                         |
+| 📤 **Top Up**                  | Balance increase by updating database values                                  |
+| 💸 **Transactions**            | Payment services like Airtime and Game Vouchers, Balance deduction according to transaction value |
+| ⚠️ **Error Handling**         | Comprehensive input validation and error catching                              |
 
-### 💳 Balance Check:
-- Real-time user balance data retrieval
+## Tech Stack
 
-### 📤 Top Up:
-- Balance increase by updating database values
-
-### 💸 Transactions:
-- Payment services like Airtime and Game Vouchers
-- Balance deduction according to transaction value
-
-### ⚠️ Error Handling:
-- Comprehensive input validation and error catching
-
-## 📊 Technologies Used
-
-- Node.js: JavaScript runtime platform for server
-- Express.js: Framework for building REST APIs
-- MySQL2: Library for MySQL database connection with prepared statement support
-- bcrypt: For password hashing
-- jsonwebtoken: For authentication using JWT tokens
-- multer: For file uploads
-- dotenv: For environment variable configuration
-- body-parser: For request body parsing
-- cookie-parser: For cookie management
-- module-alias: For path aliasing in the application
-- Joi: For input data schema validation
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![Bcrypt](https://img.shields.io/badge/Bcrypt-003A70?style=for-the-badge&logo=lock&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white)
+![Multer](https://img.shields.io/badge/Multer-FF6600?style=for-the-badge&logo=files&logoColor=white)
+![dotenv](https://img.shields.io/badge/dotenv-ECD53F?style=for-the-badge&logo=dotenv&logoColor=black)
+![Body Parser](https://img.shields.io/badge/Body_Parser-000000?style=for-the-badge&logo=npm&logoColor=white)
+![Cookie Parser](https://img.shields.io/badge/Cookie_Parser-D4AA00?style=for-the-badge&logo=cookie&logoColor=white)
+![Module Alias](https://img.shields.io/badge/Module_Alias-CB3837?style=for-the-badge&logo=npm&logoColor=white)
+![Joi](https://img.shields.io/badge/Joi-0A7BBB?style=for-the-badge&logo=joi&logoColor=white)
 
 ## 📖 API Contract Specification
 
 API documentation can be accessed via the following link:
-[Swagger API Documentation](#)
+[Swagger API Documentation](https://api-doc-tht.nutech-integrasi.com/#/)
 
 ## 🛠️ Installation and Configuration
 
@@ -68,13 +59,9 @@ cd <FOLDER_NAME>
 npm install
 ```
 
-4. Create a .env file for environment variable configuration:
-```
-DB_HOST=<database_host>
-DB_USER=<database_username>
-DB_PASSWORD=<database_password>
-DB_NAME=<database_name>
-JWT_SECRET=<secret_key>
+4. Set up environment variables:
+```bash
+cp .env.example .env
 ```
 
 5. Run the application:
@@ -86,27 +73,9 @@ npm start
 ```
 [http://localhost](http://localhost):`<PORT>`
 ```
-## 🔄 Database Structure
-
-The database design is included in the repository as a DDL file named `database_schema.sql`. This file includes:
-
-- Tables for users, transactions, and top-ups
-- Indexes and relationships between tables to maximize query performance
-
 
 ## 🌐 Deployment
 
-This project is deployed using Railway. The deployed application URL has been included in the task submission email.
+The API is deployed on Render and can be accessed at:
 
-## ✅ Testing
-
-- Ensure all modules work according to API specifications
-- Use Postman to test endpoints
-- Check input validation and error handling
-
-## 🚀 Task Submission
-
-This task has been completed according to the specified criteria and requirements. Submission information:
-
-- Deployed application URL
-- Git repository URL
+[https://product-management-8or6.onrender.com](https://transaction-management-api-jgs4.onrender.com)
