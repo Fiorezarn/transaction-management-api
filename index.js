@@ -5,6 +5,7 @@ require("module-alias/register");
 const app = express();
 const bodyParser = require("body-parser");
 const port = process.env.PORT || 3000;
+const baseUrl = process.env.BASE_URL;
 const dotenv = require("dotenv");
 const connection = require("./config/database");
 const membershipRouter = require("@/routes/membership.route");
@@ -22,12 +23,14 @@ app.use(bodyParser.json());
     console.error("Database connection failed:", error.message);
   }
 })();
-app.get("/", (req, res) => res.send("Hello World!"));
+app.get("/", (req, res) => {
+  return res.send("Hello World");
+});
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(membershipRouter);
 app.use(informationRouter);
 app.use(transactionRouter);
 
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  console.log(`Server running on ${baseUrl}`);
 });
