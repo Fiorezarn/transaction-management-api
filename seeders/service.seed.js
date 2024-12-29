@@ -87,7 +87,7 @@ module.exports = {
         service.service_tariff,
       ]);
     }
-    console.log("Service seeder berhasil dijalankan.");
+    console.log("Service seeder has been successfully run.");
   },
   down: async (db) => {
     await db.execute(`DELETE FROM services`);

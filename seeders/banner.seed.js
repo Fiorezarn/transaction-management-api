@@ -44,7 +44,7 @@ module.exports = {
         banner.description,
       ]);
     }
-    console.log("Banner seeder berhasil dijalankan.");
+    console.log("Banner seeder has been successfully run.");
   },
   down: async (db) => {
     await db.execute(`DELETE FROM banners`);

@@ -134,7 +134,6 @@ const getTransactionHistory = async (req, res) => {
     };
     return successResponse(res, "Get History Berhasil", result);
   } catch (error) {
-    console.log(error);
     return errorServerResponse(res, error.message);
   }
 };
