@@ -4,7 +4,7 @@ module.exports = {
          CREATE TABLE IF NOT EXISTS transactions (
           id INT AUTO_INCREMENT PRIMARY KEY,
           user_id INT NOT NULL,
-          service_code VARCHAR(255) NOT NULL,
+          service_code VARCHAR(255) NULL,
           description VARCHAR(100) NOT NULL,
           transaction_type ENUM('TOPUP', 'PAYMENT') NOT NULL,
           total_amount INT NOT NULL,

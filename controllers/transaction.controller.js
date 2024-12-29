@@ -27,11 +27,12 @@ const topupBalance = async (req, res) => {
   try {
     const query = `SELECT id, balance FROM users WHERE email = ?`;
     let [balance] = await db.query(query, [email]);
+
     if (balance.length === 0) {
       return errorClientResponse(res, 102, "User Tidak Ditemukan!", null, 404);
     }
     const invoice_number = `INV-${Date.now()}-${balance[0].id}`;
-    const update = `UPDATE users SET balance = ?, updated_at = CURRENT_TIMESTAMP WHERE email = ?`;
+    const update = `UPDATE users SET balance = ?, updated_on = CURRENT_TIMESTAMP WHERE email = ?`;
     const create = `INSERT INTO transactions (user_id, description, transaction_type, total_amount, invoice_number) VALUES (?, ?, ?, ?, ?)`;
     const [transaction] = await db.query(create, [
       balance[0].id,
@@ -59,10 +60,10 @@ const topupBalance = async (req, res) => {
 const transaction = async (req, res) => {
   const { email } = req.user;
   const { service_code } = req.body;
-  const invoice_number = `INV-${Date.now()}-${balance[0].id}`;
   try {
     const query = `SELECT id, balance FROM users WHERE email = ?`;
     let [balance] = await db.query(query, [email]);
+    const invoice_number = `INV-${Date.now()}-${balance[0].id}`;
     if (balance.length === 0) {
       return errorClientResponse(res, 102, "User Tidak Ditemukan!", null, 404);
     }
@@ -78,7 +79,7 @@ const transaction = async (req, res) => {
         null
       );
     }
-    const update = `UPDATE users SET balance = ?, updated_at = CURRENT_TIMESTAMP WHERE email = ?`;
+    const update = `UPDATE users SET balance = ?, updated_on = CURRENT_TIMESTAMP WHERE email = ?`;
     const create = `INSERT INTO transactions (user_id, service_code, description, transaction_type, total_amount, invoice_number) VALUES (?, ?, ?, ?, ?, ?)`;
     await db.query(create, [
       balance[0].id,
