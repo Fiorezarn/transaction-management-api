@@ -51,7 +51,7 @@ git clone https://github.com/Fiorezarn/transaction-management-api
 ```
 2. Enter the project directory:
 ```
-cd <FOLDER_NAME>
+cd transaction-management-api
 ```
 
 3. Install dependencies:
