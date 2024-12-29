@@ -10,8 +10,6 @@ This API allows users to check balances, top-ups, and transactions for various s
 4. [API Contract Specification](#-api-contract-specification)
 5. [Installation and Configuration](#-installation-and-configuration)
 6. [Deployment](#-deployment)
-7. [Testing](#-testing)
-8. [Task Submission](#-task-submission)
 
 ## 🔧 Key Features
 
