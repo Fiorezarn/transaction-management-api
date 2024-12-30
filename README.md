@@ -13,13 +13,13 @@ This API allows users to check balances, top-ups, and transactions for various s
 
 ## 🔧 Key Features
 
-| **Feature**            | **Description**                                                                 |
-|------------------------|---------------------------------------------------------------------------------|
-| 🔑 **Registration and Login**  | Password hashing using bcrypt, Input validation using Joi, Tokenization with jsonwebtoken |
-| 💳 **Balance Check**           | Real-time user balance data retrieval                                         |
-| 📤 **Top Up**                  | Balance increase by updating database values                                  |
-| 💸 **Transactions**            | Payment services like Airtime and Game Vouchers, Balance deduction according to transaction value |
-| ⚠️ **Error Handling**         | Comprehensive input validation and error catching                              |
+| **Feature**                   | **Description**                                                                                   |
+| ----------------------------- | ------------------------------------------------------------------------------------------------- |
+| 🔑 **Registration and Login** | Password hashing using bcrypt, Input validation using Joi, Tokenization with jsonwebtoken         |
+| 💳 **Balance Check**          | Real-time user balance data retrieval                                                             |
+| 📤 **Top Up**                 | Balance increase by updating database values                                                      |
+| 💸 **Transactions**           | Payment services like Airtime and Game Vouchers, Balance deduction according to transaction value |
+| ⚠️ **Error Handling**         | Comprehensive input validation and error catching                                                 |
 
 ## Tech Stack
 
@@ -47,27 +47,34 @@ API documentation can be accessed via the following link:
 ```
 git clone https://github.com/Fiorezarn/transaction-management-api
 ```
+
 2. Enter the project directory:
+
 ```
 cd transaction-management-api
 ```
 
 3. Install dependencies:
+
 ```
 npm install
 ```
 
 4. Set up environment variables:
+
 ```bash
 cp .env.example .env
 ```
 
 5. Run the application:
+
 ```
 npm start
 
 ```
+
 6. Access the application via:
+
 ```
 [http://localhost](http://localhost):`<PORT>`
 ```
@@ -77,3 +84,7 @@ npm start
 The API is deployed on Render and can be accessed at:
 
 [https://transaction-management-api-jgs4.onrender.com](https://transaction-management-api-jgs4.onrender.com)
+
+## 🧑🏻‍💻 Author
+
+- [@Fioreza Radhin Naufal](https://github.com/Fiorezarn)

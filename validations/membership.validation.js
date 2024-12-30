@@ -35,6 +35,24 @@ const registerValidation = (req, res, next) => {
   next();
 };
 
+const updateProfileValidation = (req, res, next) => {
+  const schema = Joi.object({
+    first_name: Joi.string().required(),
+    last_name: Joi.string().required(),
+  });
+
+  const validationError = schema.validate(req.body).error;
+  if (validationError) {
+    return errorClientResponse(
+      res,
+      102,
+      validationError.details[0].message,
+      null
+    );
+  }
+  next();
+};
+
 const loginValidation = (req, res, next) => {
   const schema = Joi.object({
     email: Joi.string().email().required().messages({
@@ -89,4 +107,5 @@ module.exports = {
   registerValidation,
   loginValidation,
   checkDuplicate,
+  updateProfileValidation,
 };

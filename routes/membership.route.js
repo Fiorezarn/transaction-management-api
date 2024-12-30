@@ -11,6 +11,7 @@ const {
   registerValidation,
   loginValidation,
   checkDuplicate,
+  updateProfileValidation,
 } = require("@/validations/membership.validation");
 const express = require("express");
 const router = express.Router();
@@ -18,7 +19,12 @@ const router = express.Router();
 router.post("/registration", registerValidation, checkDuplicate, registerUser);
 router.post("/login", loginValidation, loginUser);
 router.get("/profile", authenticateToken, getProfile);
-router.put("/profile/update", authenticateToken, updateProfile);
+router.put(
+  "/profile/update",
+  authenticateToken,
+  updateProfileValidation,
+  updateProfile
+);
 router.put("/profile/image", authenticateToken, upload, updateProfileImage);
 
 module.exports = router;
